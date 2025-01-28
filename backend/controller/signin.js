@@ -27,7 +27,7 @@ async function submitValidation(event) { // A OPTIMISER
 	data.forEach(element => {
 		element.style.border = '';
 	});
-	if (username.value.length < 1) {
+	if (username.value.length < 1 || await usernameExist(username.value)) {
 		username.style.border = 'solid 1px red';
 		console.log('username error');
 	} else if (firstname.value.length < 1) {
@@ -62,4 +62,15 @@ async function mailExist(mail) {
 		console.error('Error:', error);
 		return false;
 	}
+}
+
+async function usernameExist(username) { // pas encore utilisé
+    try {
+        const response = await fetch(`backend/functions/usernameExist.php?username=${username}`);
+        const data = await response.json();
+        return data.result;
+    } catch (error) {
+        console.error('Error:', error);
+        return false;
+    }
 }

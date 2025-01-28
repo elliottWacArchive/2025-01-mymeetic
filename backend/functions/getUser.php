@@ -1,0 +1,15 @@
+<?php
+
+include '../include/db.php';
+include '../model/user.php';
+
+// $elliott = new User();
+// $elliott->addUser('kk', 'kk', 'Ramet', 'cc@fr.cc', '1234', '1999-07-07', 'mtp', 'male');
+
+if (isset($_GET['token'], $_GET['param'])) {
+    $token = $_GET['token'];
+    $param = $_GET['param'];
+    $user = new User();
+    $result = $user->getUser($token, $param);
+    echo json_encode(['result' => $result]);
+}

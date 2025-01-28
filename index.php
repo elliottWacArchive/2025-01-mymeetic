@@ -1,19 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="frontend/css/style.css">
+    <link rel="stylesheet" href="frontend/css/fonts.css">
+    <script src="backend/controller/cookie.js" defer></script>
+    <link rel="icon" href="frontend/img/icon.png" type="image/x-icon">
+</head>
 <?php
 
 $request = $_SERVER['REQUEST_URI'];
 
 switch ($request) {
     case '/':
-        require __DIR__ . '/frontend/view/signin.php';
+        require __DIR__ . '/frontend/view/login.php';
         break;
-    case '':
-        require __DIR__ . '/frontend/view/signin.php';
+    case '/home':
+        require __DIR__ . '/frontend/view/home.php';
         break;
     case '/login':
         require __DIR__ . '/frontend/view/login.php';
         break;
+    case '/signin':
+        require __DIR__ . '/frontend/view/signin.php';
+        break;
     default:
-        http_response_code(404);
         require __DIR__ . '/frontend/view/404.php';
         break;
 }
+
+?>
+
+</html>

@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Inscription</title>
-	<link rel="stylesheet" href="frontend/css/style.css">
-	<script src="backend/controller/animation.js" defer></script>
-	<script src="backend/controller/script.js" defer></script>
+	<script src="backend/controller/signin.js" defer></script>
 </head>
 <body>
 	<form onsubmit="submitValidation(event)" method="GET">
@@ -25,4 +19,3 @@
 		<input type="Submit" value="Validation">
 	</form>
 </body>
-</html>
