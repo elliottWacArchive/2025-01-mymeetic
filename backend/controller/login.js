@@ -10,17 +10,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	btn.addEventListener('click', function() {
 		img.style.transform = '';
 	});
-	btn.addEventListener('mouseup', function() {
+	btn.addEventListener('mouseup', async function() {
 		btn.style.transform = "";
-        if (document.cookie.split(';').some((item) => item.trim().startsWith('token='))) {
+        if (getCookie("token")) {
             console.log('Token cookie is set');
-            const token = document.cookie.split(';').find(item => item.trim().startsWith('token=')).split('=')[1];
-            getFromSql(token, 'username');
-            getFromSql(token, 'firstname');
-            getFromSql(token, 'lastname');
-            getFromSql(token, 'mail');
-            getFromSql(token, 'city');
-            getFromSql(token, 'gender');
+            const token = getCookie('token');
+            await getFromSql(token, 'username');
+            await getFromSql(token, 'firstname');
+            await getFromSql(token, 'lastname');
+            await getFromSql(token, 'mail');
+            await getFromSql(token, 'city');
+            await getFromSql(token, 'gender');
             window.location.href = '/home';
         } else {
             console.log('Token cookie is not set');
@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.text())
                 .then(data => {
                     document.body.innerHTML = data;
+                    var script = document.createElement("script");
+                    script.src = "backend/controller/button.js";
+                    document.body.appendChild(script);
                 })
                 .catch(error => console.error('Error fetching the login form:', error));
         }
@@ -46,10 +49,10 @@ async function checkPassword(event) {
     const password = document.getElementById('password');
 
     if (mail.value === '' || !mail.value.includes('@') || !mail.value.includes('.')) {
-        mail.style.border = 'solid 1px red';
+        mail.style.border = 'solid 2px red';
         console.log('mail error');
     } else if (password.value.length < 1) {
-        password.style.border = 'solid 1px red';
+        password.style.border = 'solid 2px red';
         console.log('password error');
     } else {
         const response = await fetch(`backend/functions/checkPassword.php?mail=${mail.value}&password=${password.value}`);
@@ -57,12 +60,12 @@ async function checkPassword(event) {
         if (data.result) {
             const token = data.result;
             setCookie('token', token);
-            getFromSql(token, 'username');
-            getFromSql(token, 'firstname');
-            getFromSql(token, 'lastname');
-            getFromSql(token, 'mail');
-            getFromSql(token, 'city');
-            getFromSql(token, 'gender');
+            await getFromSql(token, 'username');
+            await getFromSql(token, 'firstname');
+            await getFromSql(token, 'lastname');
+            await getFromSql(token, 'mail');
+            await getFromSql(token, 'city');
+            await getFromSql(token, 'gender');
             window.location.href = '/home';
         } else {
             console.log('Wrong password');

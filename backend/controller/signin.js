@@ -28,25 +28,25 @@ async function submitValidation(event) { // A OPTIMISER
 		element.style.border = '';
 	});
 	if (username.value.length < 1 || await usernameExist(username.value)) {
-		username.style.border = 'solid 1px red';
+		username.style.border = 'solid 2px red';
 		console.log('username error');
 	} else if (firstname.value.length < 1) {
-		firstname.style.border = 'solid 1px red';
+		firstname.style.border = 'solid 2px red';
 		console.log('firstname error');
 	} else if (lastname.value.length < 1) {
-		lastname.style.border = 'solid 1px red';
+		lastname.style.border = 'solid 2px red';
 		console.log('lastname error');
 	} else if (mail.value === '' || !mail.value.includes('@') || !mail.value.includes('.') || await mailExist(mail.value)) {
-		mail.style.border = 'solid 1px red';
+		mail.style.border = 'solid 2px red';
 		console.log('mail error');
 	} else if (password.value.length < 1) {
-		password.style.border = 'solid 1px red';
+		password.style.border = 'solid 2px red';
 		console.log('password error');
 	} else if (birthdate.value === '' || new Date(birthdate.value) >= new Date(new Date().setFullYear(new Date().getFullYear() - 18))) {
-		birthdate.style.border = 'solid 1px red';
+		birthdate.style.border = 'solid 2px red';
 		console.log('birthdate error');
 	} else if (city.value.length < 1) {
-		city.style.border = 'solid 1px red';
+		city.style.border = 'solid 2px red';
 		console.log('city error');
 	} else {
 		signin(mail.value, username.value, password.value, firstname.value, lastname.value, birthdate.value, city.value, gender.value);

@@ -35,3 +35,11 @@ function logout() {
     deleteAllCookies();
     window.location.href = '/';
 }
+
+function getCookie(name) {
+    const cookie = document.cookie.split(';').find(item => item.trim().startsWith(name + '='));
+    if (cookie) {
+        return cookie.split('=')[1];
+    }
+    return false;
+}
