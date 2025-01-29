@@ -1,6 +1,7 @@
 <head>
 	<title>Inscription</title>
 	<script src="backend/controller/signin.js" defer></script>
+    <script src="backend/controller/button.js" defer></script>
 </head>
 <body>
 	<form onsubmit="submitValidation(event)" method="GET">
@@ -16,6 +17,6 @@
 			<option value="female">Femme</option>
 			<option value="other">Autre</option>
 		</select>
-		<input type="Submit" value="Validation">
+        <?php include 'frontend/widget/formButton.php'; ?>
 	</form>
 </body>

@@ -1,0 +1,42 @@
+/* MIKU BTN */
+
+#mikuBtn {
+	user-select: none;
+	cursor: pointer;
+	z-index: 10;
+	height: 40px;
+	width: 100px;
+	padding: 20px 40px;
+	border-radius: 20px;
+	font-size: 1.4em;
+    color: black;
+    border: 2px solid black;
+	background-color: var(--m-l-blue);
+	transition: all 0.2s ease;
+	/* transform: translate(7px, 7px); */
+	/* overflow: hidden; */
+}
+
+#shadow {
+	background-color: black;
+	height: 40px;
+	width: 100px;
+	padding: 20px 40px;
+	border-radius: 20px;
+	transform: translate(5px, -155px);
+}
+
+#text {
+	z-index: 100;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+#mikuImg {
+	transition: all 0.3s ease;
+	height: 80px;
+	transform: translateY(-80px);
+}

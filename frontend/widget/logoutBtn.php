@@ -1,1 +1,1 @@
-<button onclick='logout()'>Se déconnecter.</button>
+<button onclick='logout()'>Se déconnecter</button>
