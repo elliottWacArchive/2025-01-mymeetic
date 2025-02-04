@@ -22,10 +22,13 @@ if (isset($_COOKIE['token'])) {
 <body>
     <?php include 'frontend/widget/header.php' ?>
     <div id="center">
-    <?php
-        echo 'welcome ' . $_COOKIE['username'];
-    ?>
-    <?php include 'frontend/widget/logoutBtn.php'; ?>
+        <div id="search-section">
+            <?php include 'frontend/widget/searchbar.php';?>
+        </div>
+        <div id="result-section">
+            <?php echo 'welcome ' . $_COOKIE['username'];?>
+            <?php include 'frontend/widget/logoutBtn.php'; ?>
+        </div>
     <?php include 'frontend/widget/footer.php' ?>
     </div>
 </body>
