@@ -1,0 +1,77 @@
+/* SIGNUP */
+
+body {
+    background-image: url('../img/Hatsune_Miku_Vocaloid.jpg');
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(10px);
+}
+
+#signup-container {
+    display: flex;
+    background-color: var(--m-d-grey);
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    padding: 20px;
+    gap: 20px;
+    border-radius: 15px;
+    -webkit-box-shadow: 0px 0px 12px 1px #000000; 
+    box-shadow: 0px 0px 12px 1px #000000;
+}
+
+#signup-container #illustration-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 15px;
+    padding: 0 20px;
+    width: 50%;
+    height: 100%;
+    background-image: url("../img/mikuXP.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+#signup-container #form-container {
+    width: calc(50% - 100px);
+    padding: 0 50px;
+}
+
+a {
+    color: var(--m-l-pink);
+}
+
+#illustration-container h1 {
+    font-family: 'Vocaloid', 'Roboto', sans-serif;
+    font-size: 3em;
+    color: var(--m-l-pink);
+    text-shadow: -2px 0px 0px var(--m-l-blue), 3px 0px 2px rgba(55,59,62,0.6);
+    text-align: center;
+    margin-top: 20px;
+}
+
+#illustration-container h2 {
+    text-align: center;
+    font-weight: normal;
+    color: var(--m-l-pink);
+    text-shadow: -2px 0px 0px var(--m-l-blue), 3px 0px 2px rgba(55,59,62,0.6);
+}
+
+#illustration-container p {
+    text-align: center;
+    font-weight: normal;
+    color: var(--m-d-grey);
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#form-container .inline {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}

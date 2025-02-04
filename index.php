@@ -22,8 +22,8 @@ switch ($request) {
     case '/login':
         require __DIR__ . '/frontend/view/login.php';
         break;
-    case '/signin':
-        require __DIR__ . '/frontend/view/signin.php';
+    case '/inscription':
+        require __DIR__ . '/frontend/view/signup.php';
         break;
     default:
         require __DIR__ . '/frontend/view/404.php';

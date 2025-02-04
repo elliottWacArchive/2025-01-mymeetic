@@ -14,16 +14,19 @@
 	background-color: var(--m-l-blue);
 	transition: all 0.2s ease;
 	/* transform: translate(7px, 7px); */
-	/* overflow: hidden; */
+	overflow: hidden;
+    margin-bottom: -75px;
+    margin-left: -5px;
 }
 
-#shadow {
+#shadowMiku {
 	background-color: black;
 	height: 40px;
 	width: 100px;
 	padding: 20px 40px;
 	border-radius: 20px;
-	transform: translate(5px, -155px);
+    margin: 0 -5px -5px 0;
+	/* transform: translate(5px, -155px); */
 }
 
 #text {
@@ -36,7 +39,9 @@
 }
 
 #mikuImg {
+    z-index: -10;
 	transition: all 0.3s ease;
 	height: 80px;
-	transform: translateY(-80px);
+    top: 480px;
+    margin-bottom: -80px;
 }

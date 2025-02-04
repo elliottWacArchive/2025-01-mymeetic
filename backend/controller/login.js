@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	const btn = document.getElementById('mikuBtn');
 	const img = document.getElementById('mikuImg');
 	btn.addEventListener('mouseover', function() {
-		img.style.transform = 'translateY(-160px)'
+		img.style.transform = 'translateY(-89px)'
 	});
 	btn.addEventListener('mouseout', function() {
 		img.style.transform = ''
@@ -55,7 +55,7 @@ async function checkPassword(event) {
         password.style.border = 'solid 2px red';
         console.log('password error');
     } else {
-        const response = await fetch(`backend/functions/checkPassword.php?mail=${mail.value}&password=${password.value}`);
+        const response = await fetch(`backend/functions/login.php?mail=${mail.value}&password=${password.value}`);
         const data = await response.json();
         if (data.result) {
             const token = data.result;
@@ -68,7 +68,16 @@ async function checkPassword(event) {
             await getFromSql(token, 'gender');
             window.location.href = '/home';
         } else {
-            console.log('Wrong password');
+            if (data.error === 'mail') {
+                mail.style.border = 'solid 2px red';
+                console.log('Wrong mail');
+            } else if (data.error === 'password') {
+                password.style.border = 'solid 2px red';
+                console.log('Wrong password');
+            } else if (data.error === 'disable account') {
+                mail.style.border = 'solid 2px red';
+                console.log('No user');
+            }
         }
     }
 }

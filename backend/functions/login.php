@@ -10,10 +10,9 @@ if (isset($_GET['mail'], $_GET['password'])) {
     $mail = $_GET['mail'];
     $password = $_GET['password'];
     $user = new User();
-    $result = $user->checkPassword($mail, $password);
-    echo json_encode(['result' => $result]);
+    $result = $user->login($mail, $password);
+    echo json_encode($result);
 }
-
 // $user = new User();
 // $result = $user->checkPassword('elliott.ramet@nugget.fr', 'azerty42');
 // echo ($result);

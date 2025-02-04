@@ -1,5 +1,7 @@
 <?php
 
+// include '../include/db.php';
+
 class User extends Database
 {
     public function addUser($username, $firstname, $lastname, $mail, $password, $birthdate, $city, $gender)
@@ -37,16 +39,29 @@ class User extends Database
 
     public function login($mail, $password)
     {
-        $sql = "SELECT * FROM `user` WHERE `mail` = :mail";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':mail', $mail);
-        $stmt->execute();
-        $result = $stmt->fetch();
-        if ($this->verifyPassword($password, $result['password'])) {
-            return $result['token'];
+        $output = [];
+        if ($this->mailExist($mail)) {
+            $sql = "SELECT * FROM `user` WHERE `mail` = :mail";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':mail', $mail);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            if ($this->verifyPassword($password, $result['password'])) {
+                if ($this->isActive($result['token'])) {
+                    $output['result'] = $result['token'];
+                } else {
+                    $output['result'] = false;
+                    $output['error'] = "disable account";
+                }
+            } else {
+                $output['result'] = false;
+                $output['error'] = "password";
+            }
         } else {
-            return false;
+            $output['result'] = false;
+            $output['error'] = "mail";
         }
+        return $output;
     }
 
     public function createToken()
@@ -79,18 +94,32 @@ class User extends Database
         return $result['token'];
     }
 
-    public function checkPassword($mail, $password)
+
+    public function isActive($token)
     {
-        $sql = "SELECT * FROM `user` WHERE `mail` = :mail";
+        $sql = "SELECT * FROM `user` WHERE `token` = :token";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':token', $token);
         $stmt->execute();
         $result = $stmt->fetch();
-        if ($this->verifyPassword($password, $result['password'])) {
-            return $result['token'];
+        if ($result['active'] == 1) {
+            return true;
         } else {
             return false;
         }
+    }
+
+    public function deleteAccount($token)
+    {
+        if ($this->isActive($token)) {
+            $sql = "UPDATE `user` SET `active` = 0 WHERE `token` = :token";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':token', $token);
+            if ($stmt->execute()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function hashPassword($password)
@@ -133,3 +162,6 @@ class User extends Database
 }
 // $elliott = new User();
 // $elliott->addUser('liotou', 'Elliott', 'Ramet', 'cc@fr.cc', '1234', '1999-07-07', 'mtp', 'male');
+
+// $user = new User();
+// $user->deleteAccount('60c40a32fed8a3d950378e1ab8c92b19');
