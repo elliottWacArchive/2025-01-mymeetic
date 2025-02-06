@@ -5,6 +5,7 @@ include 'backend/functions/checkIdentification.php';
 
 <head>
     <script src="backend/controller/search.js"></script>
+    <script src="backend/controller/result.js"></script>
     <title>Home</title>
 </head>
 <body>

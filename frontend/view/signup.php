@@ -9,7 +9,8 @@
         <div id="illustration-container">
             <h1>Bienvenue sur MyVocaloid!</h1>
             <h2>Venez vous enfermer dans des relations inexistantes avec des personnages fictifs!</h2>
-            <p><i>"ça va bientôt faire 2 ans que je ne suis pas sorti de chez moi et j'ai trouvé la paix"</i> - Lucas</p>
+            <p><i>"ça va bientôt faire 2 ans que je ne suis pas sorti 
+                de chez moi et j'ai trouvé la paix"</i> - Lucas</p>
             <p><i>"J'ai plus d'amis, plus de famille mais j'ai MyVocaloid!"</i> - Alex</p>
         </div>
         <div id="form-container">

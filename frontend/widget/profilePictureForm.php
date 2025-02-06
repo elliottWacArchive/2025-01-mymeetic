@@ -6,7 +6,7 @@
         <label id="labelFile" for="profilePicture">Sélectionner</label>
         <div id='shadow'></div>
         <input type="file" id="profilePicture" name="profilePicture">
-        <?php include 'frontend/widget/formButton.php'; ?>
+        <?php include 'formButton.php'; ?>
     </form>
     <div id='outputMessage'></div>
 </div>
