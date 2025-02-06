@@ -1,6 +1,6 @@
 <head>
-	<title>Inscription</title>
-	<script src="backend/controller/signup.js" defer></script>
+    <title>Inscription</title>
+    <script src="backend/controller/signup.js" defer></script>
     <script src="backend/controller/button.js" defer></script>
     <link rel="stylesheet" href="frontend/css/signup.css">
 </head>
@@ -14,8 +14,7 @@
         </div>
         <div id="form-container">
             <h1>Créer un compte!</h1>
-            <p>Déjà un compte ? <a href="/login">Connectez-vous</a>
-        </p>
+            <p>Déjà un compte ? <a href="/login">Connectez-vous</a></p>
             <form onsubmit="submitValidation(event)" method="GET">
                 <div class="inline">
                     <input type="text" id="firstname" placeholder="Prénom">

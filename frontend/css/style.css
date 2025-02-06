@@ -15,8 +15,8 @@ body {
 	background-color: var(--m-d-grey);
     color: var(--m-l-grey);
 	width: 100vw;
-	height: 100vh;
-	overflow: hidden;
+	min-height: 100vh;
+	overflow-x: hidden;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -34,6 +34,10 @@ form {
 input {
     margin-bottom: 10px;
     width: calc(100% - 24px);
+}
+
+input[type=file] {
+    display: none;
 }
 
 input::placeholder {
@@ -92,11 +96,12 @@ form button {
 
 #header {
     user-select: none;
-    width: 100%;
+    width: calc(100% - 40px);
     height: 10vh;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 0 20px;
     align-items: center;
     background-color: var(--m-d-blue);
 }
@@ -108,6 +113,10 @@ form button {
 
 
 #header #title {
+    /* position: absolute; */
+    /* background-color: red; */
+    /* right: 50vw; */
+    /* left: 50%; */
     color: var(--m-l-pink);
     text-shadow: -2px 0px 0px var(--m-l-blue), 3px 0px 2px rgba(55,59,62,0.6);
     font-size: 4em;
@@ -118,19 +127,27 @@ form button {
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: var(--m-d-grey);
+    /* background-color: var(--m-d-grey); */
     /* border-radius: 100%; */
-    height: calc(90% - 10px);
-    padding: 5px;
-    gap: 10px;
-    border-radius: 10px;
+    height: 100%;
+    /* padding: 5px; */
+    /* gap: 10px; */
+    /* border-radius: 100%; */
+    transition: all 0.5s ease;
 }
 
 #profile-container .list {
+    color: var(--m-d-blue);
     display: flex;
+    justify-content: center;
+    margin-right: -9vh;
+    background-color: var(--m-l-pink);
+    height: 90%;
     font-size: 0.7em;
     flex-direction: column;
-    padding-right: 10px;
+    overflow: hidden;
+    /* padding-right: 10px; */
+    transition: width 0.5s ease;
 }
 
 #profile-container .list #username {
@@ -140,15 +157,25 @@ form button {
 }
 
 #profile-container .list #param {
-    font-size: 1em;
+    font-size: 1.2em;
     margin-bottom: 5px;
+}
+
+.list div, .list a {
+    padding-left: 20px;
+}
+
+.list a {
+    color: var(--m-l-blue);
 }
 
 #profile {
     /* visibility: hidden; */
     /* width: 90%; */
+    padding: 10px;
+    background-color: var(--m-d-grey);
     border: 2px solid black;
-    height: calc(100% - 4px);
+    height: calc(90% - 24px);
     aspect-ratio: 1/1;
     border-radius: 100%;
 }
@@ -180,6 +207,9 @@ form button {
 }
 
 #result-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: var(--m-l-grey);
     color: var(--m-d-grey);
     margin: 0 20px 20px 20px;
@@ -250,3 +280,65 @@ form button {
     #searchbar-container .icon {
         height: 30%;
     }
+
+/* CONFIGURATION PAGE */
+
+#configuration-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: red; */
+    width: 60%;
+}
+
+#next {
+    color: var(--m-l-pink);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#profile-form-container {
+    background-color: #137a7f;
+    width: 70%;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+#labelFile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    cursor: pointer;
+    width: calc(100% - 24px);
+    height: 26px;
+    color: black;
+    transform: translate(-3px, -3px);
+    transition: all ease 0.2s;
+    outline: none;
+    font-family: 'Newake', 'Roboto', sans-serif;
+    font-size: 1.1em;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--m-l-blue);
+    border: solid 2px black;
+}
+
+#hobbies-container {
+    padding: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.hobby {
+    user-select: none;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 30px;
+    margin: 5px;
+    font-size: 1.5em;
+    background-color: var(--m-l-blue);
+}

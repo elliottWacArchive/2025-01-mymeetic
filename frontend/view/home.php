@@ -1,18 +1,6 @@
 
 <?php
-include 'backend/include/db.php';
-include 'backend/model/user.php';
-
-if (isset($_COOKIE['token'])) {
-    $token = $_COOKIE['token'];
-    $user = new User();
-    $result = $user->isToken($token);
-    if (!$result) {
-        header('Location: /');
-    }
-} else {
-    header('Location: /');
-}
+include 'backend/functions/checkIdentification.php';
 ?>
 
 <head>
@@ -27,7 +15,7 @@ if (isset($_COOKIE['token'])) {
         </div>
         <div id="result-section">
             <?php echo 'welcome ' . $_COOKIE['username'];?>
-            <?php include 'frontend/widget/logoutBtn.php'; ?>
+            <?php include 'frontend/widget/finishConfiguration.php' ?>
         </div>
     <?php include 'frontend/widget/footer.php' ?>
     </div>
