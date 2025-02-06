@@ -55,17 +55,19 @@ async function checkPassword(event) {
         password.style.border = 'solid 2px red';
         console.log('password error');
     } else {
-        const response = await fetch(`backend/functions/login.php?mail=${mail.value}&password=${password.value}`);
+        const response = await fetch(`backend/functions/phpCaller.php?function=login&mail=${mail.value}&password=${password.value}`);
         const data = await response.json();
-        if (data.result) {
-            const token = data.result;
+        if (data.result.result) {
+            const token = data.result.result;
             setCookie('token', token);
+            await getFromSql(token, 'id');
             await getFromSql(token, 'username');
             await getFromSql(token, 'firstname');
             await getFromSql(token, 'lastname');
             await getFromSql(token, 'mail');
             await getFromSql(token, 'city');
             await getFromSql(token, 'gender');
+            await getFromSql(token, 'pp');
             window.location.href = '/home';
         } else {
             if (data.error === 'mail') {

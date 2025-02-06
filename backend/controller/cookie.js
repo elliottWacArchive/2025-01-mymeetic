@@ -12,7 +12,7 @@ function deleteCookie(name) {
 
 async function getFromSql(token, param) {
     try {
-        const response = await fetch(`backend/functions/getUser.php?token=${token}&param=${param}`);
+        const response = await fetch(`backend/functions/phpCaller.php?function=getUser&token=${token}&param=${param}`);
         const data = await response.json();
         setCookie(param, data.result);
         return data.result;

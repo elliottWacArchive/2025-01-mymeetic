@@ -1,10 +1,10 @@
 function signup(mail, username, password, firstname, lastname, birthdate, city, gender) {
 	console.log('signup');
-	fetch(`backend/functions/signup.php?mail=${mail}&username=${username}&password=${password}&firstname=${firstname}&lastname=${lastname}&birthdate=${birthdate}&city=${city}&gender=${gender}`)
+	fetch(`backend/functions/phpCaller.php?function=addUser&username=${username}&firstname=${firstname}&lastname=${lastname}&mail=${mail}&password=${password}&birthdate=${birthdate}&city=${city}&gender=${gender}`)
 	.then(response => response.json())
 	.then(data => {
 		console.log(data);
-		if (data.result) {
+		if (data.result) { // A OPTIMISER
 			alert('Signup success');
 		} else {
 			alert('Signup failed');
@@ -66,7 +66,7 @@ async function submitValidation(event) { // A OPTIMISER
 
 async function mailExist(mail) {
 	try {
-		const response = await fetch(`backend/functions/mailExist.php?mail=${mail}`);
+		const response = await fetch(`backend/functions/phpCaller.php?function=mailExist&mail=${mail}`);
 		const data = await response.json();
 		return data.result;
 	} catch (error) {
@@ -77,7 +77,7 @@ async function mailExist(mail) {
 
 async function usernameExist(username) { // pas encore utilisé
     try {
-        const response = await fetch(`backend/functions/usernameExist.php?username=${username}`);
+        const response = await fetch(`backend/functions/phpCaller.php?function=usernameExist&username=${username}`);
         const data = await response.json();
         return data.result;
     } catch (error) {
