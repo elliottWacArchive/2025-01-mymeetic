@@ -51,7 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profilePicture'])) {
             $size = min($width, $height);
             $dst = imagecreatetruecolor($size, $size);
             $target_file = $target_dir . $cookie_id . '.jpg';
-            imagecopyresampled($dst, $src, 0, 0, ($width - $size) / 2, ($height - $size) / 2, $size, $size, $size, $size);
+            $src_x = ($width - $size) / 2;
+            $src_y = ($height - $size) / 2;
+            imagecopyresampled($dst, $src, 0, 0, $src_x, $src_y, $size, $size, $size, $size);
             imagejpeg($dst, $target_file);
 
             imagedestroy($src);

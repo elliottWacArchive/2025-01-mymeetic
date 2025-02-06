@@ -26,10 +26,6 @@ class User extends Database
         }
     }
 
-    public function test($param) {
-        echo $param;
-    }
-
     public function getUser($token, $param)
     {
         $sql = "SELECT * FROM `user` WHERE `token` = :token";

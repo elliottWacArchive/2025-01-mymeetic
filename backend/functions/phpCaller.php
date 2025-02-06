@@ -1,4 +1,5 @@
 <?php
+
 include '../include/db.php';
 include '../model/user.php';
 

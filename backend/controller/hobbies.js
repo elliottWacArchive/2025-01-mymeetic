@@ -1,6 +1,6 @@
 var hobbyList = [];
 
-document.addEventListener('DOMContentLoaded', function () {
+    console.log('exec');
     const hobbiesContainer = document.getElementById('hobbies-container');
     fetch ('/backend/functions/listHobbies.php')
     .then(response => response.json())
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-});
+
 console.log(hobbyList);
 
 function addHobbies(event) {
@@ -35,6 +35,16 @@ function addHobbies(event) {
     event.preventDefault();
     if (hobbyList.length > 0) {
         hobbyList.forEach((hobby) => addHobby(hobby));
+        fetch(`/backend/functions/phpCaller.php?function=setUser&token=${token}&param=isConfigure&value=1`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.result) {
+                return true;
+            } else {
+                return false;
+            }
+        });
         output.innerHTML = "hobbies ajoutés! <div onclick='finish()' id='next'>Fermer</div>";
     } else {
         output.innerText = "aucun hobby sélectionné!";
@@ -60,14 +70,4 @@ function finish() {
     const zone = document.getElementById("configuration-container")
     zone.innerHTML = "<div id='configuration-container'><h1>Configuration terminée!</h1>";
     zone.innerHTML += "</div>";
-    fetch(`/backend/functions/phpCaller.php?function=setUser&token=${token}&param=isConfigure&value=1`)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        if (data.result) {
-            return true;
-        } else {
-            return false;
-        }
-    });
 }

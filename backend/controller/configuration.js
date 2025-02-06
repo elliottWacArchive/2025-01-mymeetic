@@ -13,10 +13,10 @@ function checkPP(event) {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data["echo"]);
             outputMessage.innerHTML = data["echo"];
             if (data["return"]) {
                 outputMessage.innerHTML += "<div onclick='next()' id='next'>Suivant -></div>";
+                setCookie('pp', getCookie('id') + '.jpg');
             }
         })
         .catch(error => {
@@ -34,6 +34,11 @@ function next() {
     fetch('/frontend/widget/hobbies.php')
     .then(response => response.text())
     .then(data => {
+        var script = document.createElement("script");
+        // var script2 = document.createElement("script");
+        script.src = "backend/controller/hobbies.js";
+        // script2.src = "backend/controller/configuration.js";
+        document.body.appendChild(script);
         zone.innerHTML += data;
     })
     .catch(error => console.error('Error fetching the login form:', error));
