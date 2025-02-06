@@ -1,7 +1,6 @@
 <?php
 
 // include '../include/db.php';
-
 class User extends Database
 {
     public function addUser($username, $firstname, $lastname, $mail, $password, $birthdate, $city, $gender)
@@ -27,6 +26,10 @@ class User extends Database
         }
     }
 
+    public function test($param) {
+        echo $param;
+    }
+
     public function getUser($token, $param)
     {
         $sql = "SELECT * FROM `user` WHERE `token` = :token";
@@ -35,6 +38,19 @@ class User extends Database
         $stmt->execute();
         $result = $stmt->fetch();
         return $result[$param];
+    }
+
+    public function setUser($token, $param, $value)
+    {
+        $sql = "UPDATE `user` SET `$param` = :value WHERE `token` = :token";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':value', $value);
+        $stmt->bindParam(':token', $token);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function login($mail, $password)
