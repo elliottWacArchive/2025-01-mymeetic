@@ -2,11 +2,9 @@
     <div id="filter-container">
         <div class="filter-obj" id="ville">
             <div class="inline"><div class="filter-title">Ville :</div><div id="add"></div></div>
-            <div class="filter-content">
-            </div>
         </div>
         <div class="filter-obj" id="genre">
-            <div id="genre-activator" class="filter-title">Genre :</div>
+            <div id="genre-activator" class="filter-title activator">Genre</div>
             <div id="genre-selector" class="multi-selector">
                 <div class="select" value="male">Homme</div>
                 <div class="select" vale="female">Femme</div>
@@ -14,13 +12,13 @@
             </div>
         </div>
         <div class="filter-obj" id="loisir">
-            <div id="loisir-activator" class="filter-title">Loisir :</div>
+            <div id="loisir-activator" class="filter-title activator">Loisir</div>
             <div id="loisir-selector" class="multi-selector">
                 <?php include 'backend/functions/listHobbiesAff.php'; ?>
             </div>
         </div>
         <div class="filter-obj" id="age">
-            <div id="age-activator" class="filter-title">Age :</div>
+            <div id="age-activator" class="filter-title activator">Age</div>
             <div id="age-selector" class="multi-selector">
                 <div class="select" value="18-25">18/25</div>
                 <div class="select" value="25-35">25/35</div>
@@ -29,6 +27,7 @@
             </div>
         </div>
     </div>
+    <div id="ville-content"></div>
 </div>
 <div id="searchbar-container">
     <button id="filter">

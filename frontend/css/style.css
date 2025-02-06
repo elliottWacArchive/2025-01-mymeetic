@@ -286,6 +286,7 @@ form button {
         /* FILTER */
         #searchbar-shadow {
             display: flex;
+            flex-direction: column;
             /* overflow: hidden; */
             background-color: var(--m-l-pink);
             margin-right: -499px;
@@ -302,8 +303,18 @@ form button {
             flex-direction: row;
             justify-content: space-around;
             width: calc(100% - 42px);
-            height: 100%;
+            /* height: 100%; */
             transition: all 0.2s ease;
+        }
+
+        #ville-content {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            overflow-y: auto;
+            transition: all 0.2s ease;
+            width: calc(100% - 42px);
+            height: 100%;
         }
 
         .filter-obj {
@@ -321,14 +332,6 @@ form button {
             aspect-ratio: 1/1;
         }
 
-        .filter-content {
-            display: flex;
-            flex-direction: column;
-            transition: all 0.2s ease;
-            /* overflow-y: scroll; */
-            width: 100%;
-        }
-
         .inline {
             display: flex;
             align-items: center;
@@ -336,7 +339,19 @@ form button {
             height: fit-content;
         }
         .filter-title {
+            width: fit-content;
+            padding: 2px 5px;
             transition: all 0.2s ease;
+        }
+        .activator {
+            user-select: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .activator:hover {
+            background-color: var(--m-l-blue);
+            color: var(--m-d-grey);
         }
         .multi-selector {
             overflow: hidden;
@@ -348,8 +363,13 @@ form button {
             transition: all 0.2s ease;
         }
         .select {
+            user-select: none;
+            cursor: pointer;
             padding: 10px;
             white-space: nowrap;
+        }
+        .select:hover {
+            color: var(--m-l-pink);
         }
         .selected {
             background-color: var(--m-l-blue);
@@ -360,7 +380,7 @@ form button {
             /* background-color: blue; */
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            width: fit-content;
         }
         .delete {
             background-image: url('../img/delete.svg');
@@ -370,6 +390,7 @@ form button {
             aspect-ratio: 1/1;
             background-color: var(--m-l-blue);
             border-radius: 3px;
+            margin-left: 10px;
         }
 
 /* CONFIGURATION PAGE */

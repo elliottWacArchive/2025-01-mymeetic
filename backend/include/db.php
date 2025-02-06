@@ -11,7 +11,7 @@ class Database
     public function __construct()
     {
         try {
-            $this->conn = new PDO("mysql:host=$this->servername;dbname=$this->dbname", $this->username, $this->$pwd);
+            $this->conn = new PDO("mysql:host=$this->servername;dbname=$this->dbname", $this->username, $this->pwd);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // echo "PDO : Connected successfully\n";
         } catch (PDOException $e) {
@@ -19,3 +19,5 @@ class Database
         }
     }
 }
+
+new Database();

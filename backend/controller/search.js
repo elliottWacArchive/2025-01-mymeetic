@@ -55,6 +55,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let loisirOpen = false;
     let ageOpen = false;
 
+    let ville_list = [];
+    let genre_list = [];
+    let loisir_list = [];
+    let age_list = [];
+
     function getSize(element) {
         let TotalWidth = 0;
         let TotalHeight = 0;
@@ -145,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 searchItem.classList.add('added');
                 searchItem.innerHTML = search;
                 searchItem.appendChild(close);
-                document.querySelector('#ville .filter-content').appendChild(searchItem);
+                document.getElementById('ville-content').appendChild(searchItem);
                 document.getElementById('searchbar').value = '';
             }
         }
