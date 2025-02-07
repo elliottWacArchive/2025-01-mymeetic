@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.addEventListener('click', function(event) {
+        console.log("ville : " + ville_list + "\ngenre : " + genre_list + "\nloisir : " + loisir_list + "\nage : " + age_list);
         if (event.target.id == 'genre-activator') {
             if (loisirOpen) {
                 document.getElementById('loisir-selector').style.width = '';
@@ -85,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!genreOpen) {
                 const genreItems = document.querySelectorAll('#genre-selector .select');
                 const genreSize = getSize(genreItems);
-                console.log("genre : " + genreSize);
                 document.getElementById('genre-selector').style.width = genreSize[0] + 20 + 'px';
                 document.getElementById('genre-selector').style.height = genreSize[1] + 'px';
             } else {
@@ -108,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!loisirOpen) {
                 const loisirItems = document.querySelectorAll('#loisir-selector .select');
                 const loisirSize = getSize(loisirItems);
-                console.log("loisir : " + loisirSize);
                 document.getElementById('loisir-selector').style.width =  loisirSize[0] + 'px';
                 document.getElementById('loisir-selector').style.height = loisirSize[1] + 'px';
             } else {
@@ -118,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
             loisirOpen = !loisirOpen;
         }
         if (event.target.id == 'age-activator') {
-            console.log('age');
             if (genreOpen) {
                 document.getElementById('genre-selector').style.width = '';
                 document.getElementById('genre-selector').style.height = '';
@@ -132,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!ageOpen) {
                 const ageItems = document.querySelectorAll('#age-selector .select');
                 const ageSize = getSize(ageItems);
-                console.log("age : " + ageSize);
                 document.getElementById('age-selector').style.width = ageSize[0] + 'px';
                 document.getElementById('age-selector').style.height = ageSize[1] + 'px';
             } else {
@@ -146,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const search = document.getElementById('searchbar').value;
                 const searchItem = document.createElement('div');
                 const close = document.createElement('div');
+                ville_list.push(search);
                 close.classList.add('delete');
                 searchItem.classList.add('added');
                 searchItem.innerHTML = search;
@@ -155,12 +153,38 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         if (event.target.classList.contains('delete')) {
+            ville_list.splice(ville_list.indexOf(event.target.parentElement.innerText), 1);
             event.target.parentElement.remove();
         }
         if (event.target.classList.contains('select')) {
+            // console.log(event.target.id);
             if (event.target.classList.contains('selected')) {
+                switch (event.target.parentElement.id)
+                {
+                    case 'genre-selector':
+                        genre_list.splice(genre_list.indexOf(event.target.id), 1);
+                        break;
+                    case 'loisir-selector':
+                        loisir_list.splice(loisir_list.indexOf(event.target.id), 1);
+                        break;
+                    case 'age-selector':
+                        age_list.splice(age_list.indexOf(event.target.id), 1);
+                        break;
+                }
                 event.target.classList.remove('selected');
             } else {
+                switch (event.target.parentElement.id)
+                {
+                    case 'genre-selector':
+                        genre_list.push(event.target.id);
+                        break;
+                    case 'loisir-selector':
+                        loisir_list.push(event.target.id);
+                        break;
+                    case 'age-selector':
+                        age_list.push(event.target.id);
+                        break;
+                }
                 event.target.classList.toggle('selected');
             }
         }

@@ -20,6 +20,15 @@ class Hobbies extends User
         return false;
     }
 
+    // public function search($input)
+    // {
+    //     $city = $input['city'];
+    //     $gender = $input['gender'];
+    //     $age = $input['age'];
+    //     $hobbies = $input['hobbies'];
+    //     $username = $input['username'];        
+    // }
+
     public function getHobbies($token)
     {
         $hobbies = [];
