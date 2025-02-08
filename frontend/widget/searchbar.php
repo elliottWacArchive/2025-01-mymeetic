@@ -23,7 +23,7 @@
                 <div class="select" id="18-25">18/25</div>
                 <div class="select" id="25-35">25/35</div>
                 <div class="select" id="35-45">35/45</div>
-                <div class="select" id="45+">45+</div>
+                <div class="select" id="46-46">45+</div>
             </div>
         </div>
     </div>

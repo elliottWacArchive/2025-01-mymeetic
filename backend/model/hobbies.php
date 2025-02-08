@@ -20,15 +20,6 @@ class Hobbies extends User
         return false;
     }
 
-    // public function search($input)
-    // {
-    //     $city = $input['city'];
-    //     $gender = $input['gender'];
-    //     $age = $input['age'];
-    //     $hobbies = $input['hobbies'];
-    //     $username = $input['username'];        
-    // }
-
     public function getHobbies($token)
     {
         $hobbies = [];
@@ -52,7 +43,6 @@ class Hobbies extends User
         return $stmt->fetchAll();
     }
 }
-
 // $Hobbies = new Hobbies();
 // var_dump($Hobbies->getHobbies('60c40a32fed8a3d950378e1ab8c92b19'));
 // var_dump($Hobbies->addHobbies('art', '60c40a32fed8a3d950378e1ab8c92b19'));

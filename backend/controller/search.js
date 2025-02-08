@@ -1,10 +1,23 @@
+function setAge(ageSet) {
+    console.log("exec");
+    output = [];
+    ageSet.forEach(range => {
+        let [start, end] = range.split('-').map(Number);
+        for (let i = start; i <= end; i++) {
+            output.push(i);
+        }
+    });
+    return output;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log('SEARCH READY');
     const filter = document.getElementById('filter');
     const search = document.getElementById('search');
     const profile = document.getElementById('profile');
     const shadow = document.getElementById('searchbar-shadow');
-    const profileContainer = document.getElementById('profile-container');
+    const resultSection = document.getElementById('result-section');
+    // const profileContainer = document.getElementById('profile-container');
     const filterContainer = document.getElementById('filter-container');
     const list = document.querySelector('#profile-container .list');
     let isOpen = false;
@@ -30,6 +43,27 @@ document.addEventListener('DOMContentLoaded', function() {
     search.addEventListener('mouseup', async function() {
         search.style.transform = "";
         search.style.boxShadow = "";
+        if (document.getElementById('searchbar').value) {
+            username_list.push("%" + document.getElementById('searchbar').value + "%");
+        }
+        age_list = setAge(age_list);
+        jsonDoc = {
+            "city": ville_list,
+            "gender": genre_list,
+            "hobbies": loisir_list,
+            "age": age_list,
+            "username": username_list
+        };
+        console.log(age_list);
+        console.log(JSON.stringify(jsonDoc));
+        const reponse = await fetch('backend/functions/phpCaller.php?function=search&input=' + JSON.stringify(jsonDoc))
+        const data = await reponse.json();
+        console.log(data);
+        username_list = [];
+        ville_list = [];
+        genre_list = [];
+        loisir_list = [];
+        age_list = [];
 	});
 
 	search.addEventListener('mousedown', function() {
@@ -59,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let genre_list = [];
     let loisir_list = [];
     let age_list = [];
+    let username_list = [];
 
     function getSize(element) {
         let TotalWidth = 0;
@@ -71,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.addEventListener('click', function(event) {
-        console.log("ville : " + ville_list + "\ngenre : " + genre_list + "\nloisir : " + loisir_list + "\nage : " + age_list);
+        // console.log("ville : " + ville_list + "\ngenre : " + genre_list + "\nloisir : " + loisir_list + "\nage : " + age_list);
         if (event.target.id == 'genre-activator') {
             if (loisirOpen) {
                 document.getElementById('loisir-selector').style.width = '';

@@ -3,12 +3,12 @@
 // include '../include/db.php';
 class User extends Database
 {
-    public function addUser($username, $firstname, $lastname, $mail, $password, $birthdate, $city, $gender)
+    public function addUser($username, $firstname, $lastname, $mail, $password, $birthdate, $age, $city, $gender)
     {
         $password = $this->hashPassword($password);
         $sql = "INSERT INTO `user` 
-			(`id`, `username`, `firstname`, `lastname`, `mail`, `password`, `birthdate`, `city`, `gender`, `token`) 
-			VALUES (NULL, :username, :firstname, :lastname, :mail, :password, :birthdate, :city, :gender, :token)";
+			(`id`, `username`, `firstname`, `lastname`, `mail`, `password`, `birthdate`, `age`, `city`, `gender`, `token`) 
+			VALUES (NULL, :username, :firstname, :lastname, :mail, :password, :birthdate, :age, :city, :gender, :token)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':firstname', $firstname);
@@ -16,6 +16,7 @@ class User extends Database
         $stmt->bindParam(':mail', $mail);
         $stmt->bindParam(':password', $password);
         $stmt->bindParam(':birthdate', $birthdate);
+        $stmt->bindParam(':age', $age);
         $stmt->bindParam(':city', $city);
         $stmt->bindParam(':gender', $gender);
         $stmt->bindParam(':token', $this->createToken());
@@ -47,6 +48,64 @@ class User extends Database
         } else {
             return false;
         }
+    }
+
+    public function search($input)
+    {
+        $input = json_decode($input, true);
+        $city = $this->stringify($input, 'city');
+        $gender = $this->stringify($input, 'gender');
+        $age = $input['age'];
+        $hobbies = $this->stringify($input, 'hobbies');
+        $username = $this->stringify($input, 'username');
+        $sql = "SELECT DISTINCT user.* FROM user LEFT JOIN user_hobbies ON user.id = id_user";
+        $conditions = [];
+        if (!empty($city)) {
+            $conditions[] = "city IN ('$city')";
+        }
+        if (!empty($gender)) {
+            $conditions[] = "gender IN ('$gender')";
+        }
+        if (!empty($age)) {
+            if (in_array(46, $age)) {
+                $conditions[] = "age > 45";
+                $txt = "age > 45";
+                if (count($age) > 1) {
+                    $age = array_diff($age, [46]);
+                    $age = implode("','", $age);
+                    $txt .= " OR age IN ('$age')";
+                }
+                $conditions[] = $txt;
+            } else {
+                $conditions[] = "age IN ('$age')";
+            }
+        }
+        if (!empty($hobbies)) {
+            $conditions[] = "id_hobbies IN ('$hobbies')";
+        }
+        if (!empty($username)) {
+            $conditions[] = "username LIKE '$username'";
+        }
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(' AND ', $conditions);
+        }
+        $sql .= " AND active = 1 AND user.id != :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $_COOKIE['id']);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $ids = [];
+        foreach ($result as $row) {
+            $ids[] = $row['id'];
+        }
+        return $ids;
+    }
+
+    function stringify($input, $key)
+    {
+        $tab = $input[$key];
+        $output = implode("','", array_map('addslashes', $tab));
+        return ($output);
     }
 
     public function login($mail, $password)
@@ -105,7 +164,6 @@ class User extends Database
         $result = $stmt->fetch();
         return $result['token'];
     }
-
 
     public function isActive($token)
     {
@@ -176,4 +234,5 @@ class User extends Database
 // $elliott->addUser('liotou', 'Elliott', 'Ramet', 'cc@fr.cc', '1234', '1999-07-07', 'mtp', 'male');
 
 // $user = new User();
-// $user->deleteAccount('60c40a32fed8a3d950378e1ab8c92b19');
+// // $user->deleteAccount('60c40a32fed8a3d950378e1ab8c92b19');
+// var_dump($user->search('{"city":["lyon"],"gender":[],"hobbies":[],"age":[],"username":[]}'));

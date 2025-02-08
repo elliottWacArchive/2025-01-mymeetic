@@ -1,6 +1,7 @@
 function signup(mail, username, password, firstname, lastname, birthdate, city, gender) {
 	console.log('signup');
-	fetch(`backend/functions/phpCaller.php?function=addUser&username=${username}&firstname=${firstname}&lastname=${lastname}&mail=${mail}&password=${password}&birthdate=${birthdate}&city=${city}&gender=${gender}`)
+    const age = getAge(birthdate);
+	fetch(`backend/functions/phpCaller.php?function=addUser&username=${username}&firstname=${firstname}&lastname=${lastname}&mail=${mail}&password=${password}&birthdate=${birthdate}&age=${age}&city=${city}&gender=${gender}`)
 	.then(response => response.json())
 	.then(data => {
 		console.log(data);
@@ -47,7 +48,7 @@ async function submitValidation(event) { // A OPTIMISER
 	} if (birthdate.value === '') {
 		birthdate.style.border = 'solid 2px red';
         error.push('La date de naissance est vide');
-	} if (new Date(birthdate.value) >= new Date(new Date().setFullYear(new Date().getFullYear() - 18))) {
+	} if (getAge(birthdate.value) < 18) {
         birthdate.style.border = 'solid 2px red';
         error.push('Vous devez avoir plus de 18 ans');
     }
@@ -83,5 +84,15 @@ async function usernameExist(username) { // pas encore utilisé
     } catch (error) {
         console.error('Error:', error);
         return false;
+    }
+}
+
+function getAge(date) {
+    const today = new Date();
+    const date = new Date(date);
+    let age = today.getFullYear() - date.getFullYear();
+    const monthDifference = today.getMonth() - date.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < date.getDate())) {
+        age--;
     }
 }
