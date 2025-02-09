@@ -1,5 +1,4 @@
 function setAge(ageSet) {
-    console.log("exec");
     output = [];
     ageSet.forEach(range => {
         let [start, end] = range.split('-').map(Number);
@@ -11,15 +10,11 @@ function setAge(ageSet) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('SEARCH READY');
     const filter = document.getElementById('filter');
     const search = document.getElementById('search');
-    const profile = document.getElementById('profile');
     const shadow = document.getElementById('searchbar-shadow');
     const resultSection = document.getElementById('result-section');
-    // const profileContainer = document.getElementById('profile-container');
     const filterContainer = document.getElementById('filter-container');
-    const list = document.querySelector('#profile-container .list');
     let isOpen = false;
     let isShadowOpen = false;
 
@@ -46,6 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (document.getElementById('searchbar').value) {
             username_list.push("%" + document.getElementById('searchbar').value + "%");
         }
+
+        document.getElementById('filter-container').style.display = '';
+        shadow.style.marginRight = "";
+        document.querySelectorAll('.selected').forEach(item => {
+            item.classList.remove('selected');
+        });
+        document.getElementById('ville-content').innerHTML = '';
+
         age_list = setAge(age_list);
         jsonDoc = {
             "city": ville_list,
@@ -54,11 +57,32 @@ document.addEventListener('DOMContentLoaded', function() {
             "age": age_list,
             "username": username_list
         };
-        console.log(age_list);
-        console.log(JSON.stringify(jsonDoc));
-        const reponse = await fetch('backend/functions/phpCaller.php?function=search&input=' + JSON.stringify(jsonDoc))
+        const reponse = await fetch('backend/functions/search.php', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonDoc)
+        });
         const data = await reponse.json();
-        console.log(data);
+        const resultSection = document.getElementById('result-section');
+        fetch('/frontend/widget/cardSlider.php')
+        .then(response => response.text())
+        .then(html => {
+            resultSection.innerHTML = html;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        fetch('/frontend/widget/cardSlider.php')
+        .then(response => response.text())
+        .then(html => {
+            resultSection.innerHTML = html;
+            createCards(data.result);
+        })
+        .catch(error => {
+            console.error(error);
+        });
         username_list = [];
         ville_list = [];
         genre_list = [];
@@ -70,20 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
         search.style.transform = "translateX(-5px) scale(0.91)";
         search.style.boxShadow = "inset 0px 0px 10px 2px rgba(0,0,0,0.3), inset 25px 0px 18px -22px rgba(0,0,0,0.4)";
 	});
-
-    const profileWidth = profile.offsetWidth;
-    list.style.width = profileWidth + 5 + 'px';
-    list.style.borderRadius = profileWidth / 2 + 'px';
-    profile.addEventListener('click', function() {
-        if (!isOpen) {
-            list.style.width = '200px';
-            // profileContainer.style.borderRadius ="10px";
-        } else {
-            list.style.width = profileWidth + 5 + 'px';
-            // profileContainer.style.borderRadius ="100%";
-        }
-        isOpen = !isOpen;
-    });
     
     let genreOpen = false;
     let loisirOpen = false;
@@ -106,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.addEventListener('click', function(event) {
-        // console.log("ville : " + ville_list + "\ngenre : " + genre_list + "\nloisir : " + loisir_list + "\nage : " + age_list);
         if (event.target.id == 'genre-activator') {
             if (loisirOpen) {
                 document.getElementById('loisir-selector').style.width = '';
@@ -192,7 +201,6 @@ document.addEventListener('DOMContentLoaded', function() {
             event.target.parentElement.remove();
         }
         if (event.target.classList.contains('select')) {
-            // console.log(event.target.id);
             if (event.target.classList.contains('selected')) {
                 switch (event.target.parentElement.id)
                 {

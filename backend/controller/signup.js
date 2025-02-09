@@ -1,20 +1,34 @@
-function signup(mail, username, password, firstname, lastname, birthdate, city, gender) {
-	console.log('signup');
-    const age = getAge(birthdate);
-	fetch(`backend/functions/phpCaller.php?function=addUser&username=${username}&firstname=${firstname}&lastname=${lastname}&mail=${mail}&password=${password}&birthdate=${birthdate}&age=${age}&city=${city}&gender=${gender}`)
-	.then(response => response.json())
-	.then(data => {
-		console.log(data);
-		if (data.result) { // A OPTIMISER
-			alert('Signup success');
-		} else {
-			alert('Signup failed');
-		}
-	})
-	.catch(error => console.error('Error:', error));
+function signup(mail, username, password, firstname, lastname, birthdate, age, city, gender) {
+    fetch('backend/functions/phpCaller.php?function=addUser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            firstname: firstname,
+            lastname: lastname,
+            mail: mail,
+            password: password,
+            birthdate: birthdate,
+            age: age,
+            city: city,
+            gender: gender
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.result) {
+            alert('Signup success');
+            window.location.href = '/login';
+        } else {
+            alert('Signup failed');
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }
 
-async function submitValidation(event) { // A OPTIMISER
+async function submitValidation(event) {
 	event.preventDefault();
 	const mail = document.getElementById('mail');
 	const username = document.getElementById('username');
@@ -57,7 +71,8 @@ async function submitValidation(event) { // A OPTIMISER
         error.push('La ville est vide');
 	}
     if (error.length == 0) {
-		signup(mail.value, username.value, password.value, firstname.value, lastname.value, birthdate.value, city.value, gender.value);
+        const age = getAge(birthdate.value);
+		signup(mail.value, username.value, password.value, firstname.value, lastname.value, birthdate.value, age, city.value, gender.value);
 	} else if (error.length == 1) {
         errorMessage.innerHTML = error[0];
     } else if (error.length > 1) {
@@ -76,7 +91,7 @@ async function mailExist(mail) {
 	}
 }
 
-async function usernameExist(username) { // pas encore utilisé
+async function usernameExist(username) {
     try {
         const response = await fetch(`backend/functions/phpCaller.php?function=usernameExist&username=${username}`);
         const data = await response.json();
@@ -89,10 +104,11 @@ async function usernameExist(username) { // pas encore utilisé
 
 function getAge(date) {
     const today = new Date();
-    const date = new Date(date);
-    let age = today.getFullYear() - date.getFullYear();
-    const monthDifference = today.getMonth() - date.getMonth();
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < date.getDate())) {
+    const objdate = new Date(date);
+    let age = today.getFullYear() - objdate.getFullYear();
+    const monthDifference = today.getMonth() - objdate.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < objdate.getDate())) {
         age--;
     }
+    return age;
 }

@@ -3,7 +3,7 @@ function setCookie(name, value) {
     const date = new Date();
     date.setTime(date.getTime() + (20 * 24 * 60 * 60 * 1000));
     expires = "; expires=" + date.toUTCString();
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=None; Secure";
 }
 
 function deleteCookie(name) {
@@ -42,4 +42,28 @@ function getCookie(name) {
         return cookie.split('=')[1];
     }
     return false;
+}
+
+function nextCard() {
+    const cardContainer = document.getElementById('card-container');
+    const cardNumber = document.getElementsByClassName('user-card').length;
+    const cardContainerWidth = cardNumber * 320;
+    const margin = parseInt(cardContainer.style.marginLeft);
+    if(!margin && cardContainerWidth > 320) {
+        cardContainer.style.marginLeft = '-320px';
+    } else if (margin > (-cardContainerWidth + 320)) {
+        cardContainer.style.marginLeft = margin - 320 + 'px';
+    }
+}
+
+function prevCard() {
+    const cardContainer = document.getElementById('card-container');
+    const margin = parseInt(cardContainer.style.marginLeft)
+    if(margin) {
+        cardContainer.style.marginLeft = margin + 320 + 'px';
+    }
+}
+
+function href(phref) {
+    window.location.href = phref;
 }

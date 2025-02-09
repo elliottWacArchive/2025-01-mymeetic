@@ -1,12 +1,10 @@
 var hobbyList = [];
 
-    console.log('exec');
     const hobbiesContainer = document.getElementById('hobbies-container');
     fetch ('/backend/functions/listHobbies.php')
     .then(response => response.json())
     .then(data => {
         data.forEach(hobby => {
-            console.log(hobby.id, hobby.name);
             hobbiesContainer.innerHTML += `<div class='hobby' id='${hobby.id}'>${hobby.name}</div>`;
         });
     })
@@ -18,7 +16,6 @@ var hobbyList = [];
                 event.target.style.margin = "";
                 event.target.classList.remove('clicked');
                 hobbyList = hobbyList.filter(hobbyId => hobbyId !== event.target.id);
-                console.log(hobbyList);
             } else {
                 event.target.style.border = "2px solid var(--m-l-pink)";
                 event.target.style.margin = "3px";
@@ -28,8 +25,6 @@ var hobbyList = [];
         }
     });
 
-console.log(hobbyList);
-
 function addHobbies(event) {
     const output = document.getElementById('outputMessage');
     event.preventDefault();
@@ -38,7 +33,6 @@ function addHobbies(event) {
         fetch(`/backend/functions/phpCaller.php?function=setUser&token=${token}&param=isConfigure&value=1`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if (data.result) {
                 return true;
             } else {
@@ -56,7 +50,6 @@ function addHobby(hobby) {
     fetch(`/backend/functions/phpCallerHobbies.php?function=addHobby&token=${token}&hobby=${hobby}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         if (data.result) {
             return true;
         } else {

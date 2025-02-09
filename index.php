@@ -28,6 +28,9 @@ switch ($request) {
     case '/settings':
         require __DIR__ . '/frontend/view/settings.php';
         break;
+    case '/messages':
+        require __DIR__ . '/frontend/view/messages.php';
+        break;
     default:
         require __DIR__ . '/frontend/view/404.php';
         break;

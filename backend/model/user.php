@@ -7,8 +7,10 @@ class User extends Database
     {
         $password = $this->hashPassword($password);
         $sql = "INSERT INTO `user` 
-			(`id`, `username`, `firstname`, `lastname`, `mail`, `password`, `birthdate`, `age`, `city`, `gender`, `token`) 
-			VALUES (NULL, :username, :firstname, :lastname, :mail, :password, :birthdate, :age, :city, :gender, :token)";
+			(`id`, `username`, `firstname`,
+            `lastname`, `mail`, `password`, `birthdate`, `age`, `city`, `gender`, `token`) 
+			VALUES (NULL, :username, :firstname,
+            :lastname, :mail, :password, :birthdate, :age, :city, :gender, :token)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':firstname', $firstname);
@@ -86,10 +88,11 @@ class User extends Database
         if (!empty($username)) {
             $conditions[] = "username LIKE '$username'";
         }
+        $conditions[] = "active = 1";
+        $conditions[] = "user.id != :id";
         if (!empty($conditions)) {
             $sql .= " WHERE " . implode(' AND ', $conditions);
         }
-        $sql .= " AND active = 1 AND user.id != :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id', $_COOKIE['id']);
         $stmt->execute();
@@ -101,7 +104,7 @@ class User extends Database
         return $ids;
     }
 
-    function stringify($input, $key)
+    public function stringify($input, $key)
     {
         $tab = $input[$key];
         $output = implode("','", array_map('addslashes', $tab));
@@ -155,7 +158,46 @@ class User extends Database
         }
     }
 
-    public function getToken($id)
+    public function isMatch($userid, $cibleid)
+    {
+        $sql = "SELECT * FROM `is_match` WHERE `id_user` = :userid AND `id_cible` = :cibleid";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':userid', $userid);
+        $stmt->bindParam(':cibleid', $cibleid);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function addMatch($userid, $cibleid)
+    {
+        if ($this->isMatch($cibleid, $userid)) {
+            $sql = "UPDATE `is_match` SET `is_match` = 1 WHERE `id_user` = :cibleid AND `id_cible` = :userid";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':cibleid', $cibleid);
+            $stmt->bindParam(':userid', $userid);
+            if ($stmt->execute()) {
+                return [true, true];
+            } else {
+                return [false, true];
+            }
+        }
+        $sql = "INSERT INTO `is_match` (`id`, `id_user`, `id_cible`, `is_match`) VALUES (NULL, :userid, :cibleid, 0)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':userid', $userid);
+        $stmt->bindParam(':cibleid', $cibleid);
+        if ($stmt->execute()) {
+            return [true, false];
+        } else {
+            return [false, false];
+        }
+    }
+
+    private function getToken($id)
     {
         $sql = "SELECT `token` FROM `user` WHERE `id` = :id";
         $stmt = $this->conn->prepare($sql);
@@ -192,6 +234,20 @@ class User extends Database
         return false;
     }
 
+    public function setPassword($token, $password)
+    {
+        $password = $this->hashPassword($password);
+        $sql = "UPDATE `user` SET `password` = :password WHERE `token` = :token";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':token', $token);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function hashPassword($password)
     {
         return password_hash($password, PASSWORD_DEFAULT);
@@ -200,6 +256,16 @@ class User extends Database
     public function verifyPassword($password, $hashedPassword)
     {
         return password_verify($password, $hashedPassword);
+    }
+
+    public function getUserWithId($id, $param)
+    {
+        $sql = "SELECT * FROM `user` WHERE `id` = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        return $result[$param];
     }
 
     public function mailExist($mail)
@@ -236,3 +302,6 @@ class User extends Database
 // $user = new User();
 // // $user->deleteAccount('60c40a32fed8a3d950378e1ab8c92b19');
 // var_dump($user->search('{"city":["lyon"],"gender":[],"hobbies":[],"age":[],"username":[]}'));
+
+// $user = new User();
+// echo $user->getUserWithId(9, 'username');

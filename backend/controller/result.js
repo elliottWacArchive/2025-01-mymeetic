@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 result.innerHTML = data;
             })
         } else {
-            fetch('/frontend/widget/resultSearch.php')
+            fetch('/frontend/widget/mikuQuote.php')
             .then(response => response.text())
             .then(data => {
                 result.innerHTML = data;
